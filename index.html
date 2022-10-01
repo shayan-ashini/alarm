@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/stylesheet/index.css">
+    <title>alarm</title>
+</head>
+
+<body>
+
+    <main>
+        <section>
+            <figure><img src="assets/img/clock.svg" alt=""></figure>
+            <div class="time">
+                <h1 id="time">00 : 00 : 00</h1>
+            </div>
+            <div class="input">
+                <select name="" id="hour">
+                    <option  value="Hour" selected hidden>Hour</option>
+
+                </select>
+                <select name="" id="minute">
+                    <option  value="Minute" selected hidden>Minute</option>
+                </select>
+                <select name="" id="AM/PM">
+                    <option  value="AM/PM" selected hidden>AM / PM</option>
+                    <option value="Am">AM</option>
+                    <option value="PM">PM</option>
+                </select>
+            </div>
+            <div class="btn">
+                <button id="btn-set">Set Alarm</button>
+                <button id="btn-clear">Clear Alarm</button>
+
+            </div>
+        </section>
+    </main>
+
+
+    <script>
+        let minute = document.getElementById('minute')
+        for (i = 0; i <= 59; i++) {
+            let _new = document.createElement('option')
+            if (i < 10) {
+                minute.appendChild(_new)
+                _new.innerHTML = '0' + i
+                _new.setAttribute('value', '0' + i)
+            } else {
+                minute.appendChild(_new)
+                _new.innerHTML = i
+                _new.setAttribute('value', i)
+
+            }
+
+        }
+        let hour = document.getElementById('hour')
+        for (k = 0; k <= 12; k++) {
+            let __new = document.createElement('option')
+            if (k < 10) {
+                hour.appendChild(__new)
+                __new.innerHTML = '0' + k
+                __new.setAttribute('value', '0' + k)
+
+            } else {
+                hour.appendChild(__new)
+                __new.innerHTML = k
+                __new.setAttribute('value', k)
+
+            }
+
+        }
+
+        ///////////////////////////////////////
+
+        let h
+        let m
+        let mydate
+        let s
+        let sound = new Audio('assets/sound/1')
+        sound.loop = true
+
+        setInterval(() => {
+            mydate = new Date()
+            h = mydate.getHours()
+            m = mydate.getMinutes()
+            s = mydate.getSeconds()
+            str = 'AM'
+            if (h >12) {
+                h = h - 12
+                str = 'PM'
+            }
+            if(h==12){
+                str = 'PM'
+            }
+            console.log(h)
+            if (h < 10) {
+                h = '0' + h
+            }
+            if (m < 10) {
+                m = '0' + m
+            }
+            if (s < 10) {
+                s = '0' + s
+            }
+
+            time.innerHTML = h + ' : ' + m + ' : ' + s + ' ' + str
+            last = h + ' : ' + m + '   ' + str
+            // console.log(last)
+            // console.log( hinput + ' : ' + minput + '   ' + str)
+
+            if (last == hinput + ' : ' + minput + '   ' + str) {
+                sound.play()
+            }
+
+        }, 1000);
+
+        /////////////////////////////////////////////////////
+
+        let hinput
+        let minput
+        let AMPM
+        let btns = document.getElementById('btn-set')
+        let btnc = document.getElementById('btn-clear')
+        let input = document.getElementsByClassName('input')[0]
+        btns.addEventListener('click', function () {
+            hinput = document.getElementById('hour').value
+            minput = document.getElementById('minute').value
+            AMPM = document.getElementById('AM/PM').value
+
+            if (hinput == 'Hour' || minput == 'Minute' || AMPM == 'AM/PM') {
+                alert('Please, select a valid time to set Alarm')
+            } else {
+                btns.style.display = 'none'
+                btnc.style.display = 'block'
+                input.classList.add('opa')
+
+
+            }
+
+        })
+
+        btnc.addEventListener('click', function () {
+            
+
+            btns.style.display = 'block'
+            btnc.style.display = 'none'
+            input.classList.remove('opa')
+            hinput= ' '
+            
+            console.log(hinput)
+            sound.pause()
+
+
+
+        })
+    </script>
+
+</body>
+
+</html>
